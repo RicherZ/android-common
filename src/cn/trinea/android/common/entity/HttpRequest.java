@@ -112,6 +112,13 @@ public class HttpRequest {
      * @return paras as string
      */
     public String getParas() {
+        return HttpUtils.joinParas(parasMap);
+    }
+
+    /**
+     * @return paras as string with encoded value
+     */
+    public String getParasWithEncodedValue() {
         return HttpUtils.joinParasWithEncodedValue(parasMap);
     }
 

@@ -89,7 +89,10 @@ public class HttpUtils {
                 StringBuilder sb = new StringBuilder();
                 String s;
                 while ((s = input.readLine()) != null) {
-                    sb.append(s).append("\n");
+                	if (sb.length() > 0) {
+                		sb.append("\n");
+                	}
+                    sb.append(s);
                 }
                 response.setResponseBody(sb.toString());
                 setHttpResponse(con, response);
@@ -218,7 +221,10 @@ public class HttpUtils {
                 StringBuilder sb = new StringBuilder();
                 String s;
                 while ((s = input.readLine()) != null) {
-                    sb.append(s).append("\n");
+                	if (sb.length() > 0) {
+                		sb.append("\n");
+                	}
+                    sb.append(s);
                 }
                 response.setResponseBody(sb.toString());
                 setHttpResponse(con, response);
@@ -339,7 +345,13 @@ public class HttpUtils {
         Iterator<Map.Entry<String, String>> ite = parasMap.entrySet().iterator();
         while (ite.hasNext()) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>)ite.next();
-            paras.append(entry.getKey()).append(EQUAL_SIGN).append(entry.getValue());
+            String key = entry.getKey();
+            String val = entry.getValue();
+            if (StringUtils.isEmpty(key)) {
+            	paras.append(val);
+            } else {
+            	paras.append(key).append(EQUAL_SIGN).append(val);
+            }
             if (ite.hasNext()) {
                 paras.append(PARAMETERS_SEPARATOR);
             }
@@ -362,7 +374,13 @@ public class HttpUtils {
             try {
                 while (ite.hasNext()) {
                     Map.Entry<String, String> entry = (Map.Entry<String, String>)ite.next();
-                    paras.append(entry.getKey()).append(EQUAL_SIGN).append(StringUtils.utf8Encode(entry.getValue()));
+                    String key = entry.getKey();
+                    String val = StringUtils.utf8Encode(entry.getValue());
+                    if (StringUtils.isEmpty(key)) {
+                    	paras.append(val);
+                    } else {
+                    	paras.append(key).append(EQUAL_SIGN).append(val);
+                    }
                     if (ite.hasNext()) {
                         paras.append(PARAMETERS_SEPARATOR);
                     }

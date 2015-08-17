@@ -1,5 +1,7 @@
 package cn.trinea.android.common.util;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.security.MessageDigest;
 
 /**
@@ -14,10 +16,6 @@ public class DigestUtils {
      */
     private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
             'e', 'f'                         };
-
-    private DigestUtils() {
-        throw new AssertionError();
-    }
 
     /**
      * encode By MD5
@@ -37,6 +35,42 @@ public class DigestUtils {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * encode file by md5
+     * 
+     * @param path file path
+     * @return md5 value
+     */
+	public static String md5File(String path) {
+		if (!FileUtils.isFileExist(path)) {
+			return "";
+		}
+		InputStream stream = null;
+		try {
+			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+			stream = new FileInputStream(path);
+			byte[] buf = new byte[2 * 1024];
+			while (true) {
+				int cnt = stream.read(buf);
+				if (cnt < 0) {
+					break;
+				}
+				messageDigest.update(buf, 0, cnt);
+			}
+			return new String(encodeHex(messageDigest.digest()));
+		} catch (Exception e) {
+            throw new RuntimeException(e);
+		} finally {
+			try {
+				if (stream != null) {
+					stream.close();
+				}
+			} catch (Exception e) {
+	            throw new RuntimeException(e);
+			}
+		}
+	}
 
     /**
      * Converts an array of bytes into an array of characters representing the hexadecimal values of each byte in order.
