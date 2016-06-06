@@ -44,7 +44,7 @@ public class RemoveTypeBitmapLarge implements CacheFullRemoveType<Bitmap> {
             return -1;
         }
 
-        // TODO is there any more efficient way?
+        // is there any more efficient way?
         byte[] b = ImageUtils.bitmapToByte(o.getData());
         return (b == null ? -1 : b.length);
     }
